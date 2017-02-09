@@ -253,7 +253,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 	@Override
 	public List<GeneratedXmlFile> getGeneratedXmlFiles() {
 		List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
-
+		// 是否完全覆盖生成的xml文件
 		if (xmlMapperGenerator != null) {
 			Document document = xmlMapperGenerator.getDocument();
 			GeneratedXmlFile gxf = new GeneratedXmlFile(document, getMyBatis3XmlMapperFileName(),
