@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.codegen.AbstractGenerator;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
@@ -225,6 +226,10 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 		for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
 			List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
 			for (CompilationUnit compilationUnit : compilationUnits) {
+				// 针对于java domain实体,生成java.io.Serializable接口代码
+				if (javaGenerator instanceof BaseRecordGenerator) {
+					compilationUnit.getSuperInterfaceTypes().add(new FullyQualifiedJavaType("java.io.Serializable"));
+				}
 				GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
 						context.getJavaModelGeneratorConfiguration().getTargetProject(),
 						context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING), context.getJavaFormatter());
