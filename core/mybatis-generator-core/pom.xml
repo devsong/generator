@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2006-2016 the original author or authors.
+       Copyright 2006-2017 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@
   </parent>
 
   <artifactId>mybatis-generator-core</artifactId>
-  <version>1.3.6.RC1</version>
   <packaging>jar</packaging>
   <name>MyBatis Generator Core</name>
 
@@ -124,14 +123,22 @@
       <artifactId>javaparser-core</artifactId>
     </dependency>
   </dependencies>
-
+  
   <distributionManagement>
-    <site>
-      <id>gh-pages</id>
-      <name>Mybatis Generator GitHub Pages</name>
-      <url>git:ssh://git@github.com/mybatis/generator.git?gh-pages#</url>
-    </site>
-  </distributionManagement>
+     	<site>
+	      	<id>gh-pages</id>
+	      	<name>Mybatis Generator GitHub Pages</name>
+	      	<url>git:ssh://git@github.com/mybatis/generator.git?gh-pages#</url>
+    	</site>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<url>http://10.123.128.206:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>release</id>
+			<url>http://10.123.128.206:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 
   <description>MyBatis Generator - a code generator for MyBatis and iBatis.</description>
   <scm>
