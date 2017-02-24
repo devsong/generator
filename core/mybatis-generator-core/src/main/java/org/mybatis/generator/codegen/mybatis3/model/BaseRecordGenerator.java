@@ -80,6 +80,16 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         }
         
         String rootClass = getRootClass();
+        Field serialVersionUIDField = new Field();
+        serialVersionUIDField.setFinal(true);
+        serialVersionUIDField.setType(new FullyQualifiedJavaType("long"));
+        serialVersionUIDField.setVisibility(JavaVisibility.PRIVATE);
+        serialVersionUIDField.setStatic(true);
+        serialVersionUIDField.setInitializationString("1L");
+        serialVersionUIDField.setName("serialVersionUID");
+        topLevelClass.addField(serialVersionUIDField);
+        topLevelClass.addImportedType(serialVersionUIDField.getType());
+        
         for (IntrospectedColumn introspectedColumn : introspectedColumns) {
             if (RootClassInfo.getInstance(rootClass, warnings)
                     .containsProperty(introspectedColumn)) {
