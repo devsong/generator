@@ -5,7 +5,7 @@
 /core/.settings
 /core/build.log
 /core/target
-
+.DS_Store
 # /core/mybatis-generator-core/
 /core/mybatis-generator-core/.classpath
 /core/mybatis-generator-core/.project
