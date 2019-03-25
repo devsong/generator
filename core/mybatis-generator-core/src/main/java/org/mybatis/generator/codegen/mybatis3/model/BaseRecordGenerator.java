@@ -14,6 +14,8 @@
 package org.mybatis.generator.codegen.mybatis3.model;
 
 import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansField;
+import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansGetter;
+import static org.mybatis.generator.internal.util.JavaBeansUtil.getJavaBeansSetter;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.util.ArrayList;
@@ -56,8 +58,8 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
-        topLevelClass.addImportedType("lombok.Data");
-        topLevelClass.addAnnotation("@Data");
+        //topLevelClass.addImportedType("lombok.Data");
+        //topLevelClass.addAnnotation("@Data");
 
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
@@ -100,19 +102,19 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 topLevelClass.addImportedType(field.getType());
             }
 
-            // Method method = getJavaBeansGetter(introspectedColumn, context, introspectedTable);
-            // if (plugins.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn,
-            // introspectedTable, Plugin.ModelClassType.BASE_RECORD)) {
-            // topLevelClass.addMethod(method);
-            // }
-            //
-            // if (!introspectedTable.isImmutable()) {
-            // method = getJavaBeansSetter(introspectedColumn, context, introspectedTable);
-            // if (plugins.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn,
-            // introspectedTable, Plugin.ModelClassType.BASE_RECORD)) {
-            // topLevelClass.addMethod(method);
-            // }
-            // }
+             Method method = getJavaBeansGetter(introspectedColumn, context, introspectedTable);
+             if (plugins.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn,
+             introspectedTable, Plugin.ModelClassType.BASE_RECORD)) {
+             topLevelClass.addMethod(method);
+             }
+            
+             if (!introspectedTable.isImmutable()) {
+             method = getJavaBeansSetter(introspectedColumn, context, introspectedTable);
+             if (plugins.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn,
+             introspectedTable, Plugin.ModelClassType.BASE_RECORD)) {
+             topLevelClass.addMethod(method);
+             }
+             }
         }
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
