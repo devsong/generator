@@ -58,8 +58,10 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
-        //topLevelClass.addImportedType("lombok.Data");
-        //topLevelClass.addAnnotation("@Data");
+        
+        // 
+        topLevelClass.addImportedType("lombok.Data");
+        topLevelClass.addAnnotation("@Data");
 
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
@@ -86,6 +88,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         serialVersionUIDField.setStatic(true);
         serialVersionUIDField.setInitializationString("1L");
         serialVersionUIDField.setName("serialVersionUID");
+        
         topLevelClass.addField(serialVersionUIDField);
         topLevelClass.addImportedType(serialVersionUIDField.getType());
 
