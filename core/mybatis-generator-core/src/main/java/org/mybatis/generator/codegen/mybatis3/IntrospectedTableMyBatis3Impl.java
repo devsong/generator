@@ -23,7 +23,6 @@ import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.codegen.AbstractGenerator;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
@@ -226,10 +225,6 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 		for (AbstractJavaGenerator javaGenerator : javaModelGenerators) {
 			List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
 			for (CompilationUnit compilationUnit : compilationUnits) {
-				// 针对于java domain实体,生成java.io.Serializable接口代码
-				if (javaGenerator instanceof BaseRecordGenerator) {
-					compilationUnit.getSuperInterfaceTypes().add(new FullyQualifiedJavaType("java.io.Serializable"));
-				}
 				GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
 						context.getJavaModelGeneratorConfiguration().getTargetProject(),
 						context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING), context.getJavaFormatter());
@@ -240,7 +235,7 @@ public class IntrospectedTableMyBatis3Impl extends IntrospectedTable {
 		for (AbstractJavaGenerator javaGenerator : clientGenerators) {
 			List<CompilationUnit> compilationUnits = javaGenerator.getCompilationUnits();
 			for (CompilationUnit compilationUnit : compilationUnits) {
-				GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
+			    GeneratedJavaFile gjf = new GeneratedJavaFile(compilationUnit,
 						context.getJavaClientGeneratorConfiguration().getTargetProject(),
 						context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING), context.getJavaFormatter());
 				answer.add(gjf);

@@ -65,26 +65,29 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
     
     @Override
     public List<CompilationUnit> getCompilationUnits() {
-        progressCallback.startTask(getString("Progress.17", //$NON-NLS-1$
-                introspectedTable.getFullyQualifiedTable().toString()));
+        progressCallback.startTask(getString("Progress.17", introspectedTable.getFullyQualifiedTable().toString()));
         CommentGenerator commentGenerator = context.getCommentGenerator();
 
-        FullyQualifiedJavaType type = new FullyQualifiedJavaType(
-                introspectedTable.getMyBatis3JavaMapperType());
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
         Interface interfaze = new Interface(type);
+        
+        FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
+        interfaze.getSuperInterfaceTypes().add(new FullyQualifiedJavaType("BaseMapper<"+returnType.getShortName()+">"));
+        FullyQualifiedJavaType baseMapperType = new FullyQualifiedJavaType("com.baomidou.mybatisplus.core.mapper.BaseMapper");
+        interfaze.addImportedType(baseMapperType);
+        
         interfaze.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(interfaze);
 
-        String rootInterface = introspectedTable
-            .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
+        String rootInterface = introspectedTable.getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
+        
         if (!stringHasValue(rootInterface)) {
             rootInterface = context.getJavaClientGeneratorConfiguration()
                 .getProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
         }
 
         if (stringHasValue(rootInterface)) {
-            FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
-                    rootInterface);
+            FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(rootInterface);
             interfaze.addSuperInterface(fqjt);
             interfaze.addImportedType(fqjt);
         }
